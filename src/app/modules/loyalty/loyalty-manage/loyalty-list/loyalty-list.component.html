@@ -1,0 +1,105 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Toplam Loyalty Kart</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ pageable.totalElements }}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Loyalty Card</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#!" class="btn btn-sm btn-primary" [routerLink]="['add']">Oluştur</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Kart Adı</th>
+                <th scope="col">Kart Tanım</th>
+                <th scope="col">Şube</th>
+                <th scope="col">Durum</th>
+                <th scope="col">Toplam Alınan</th>
+                <th scope="col">Toplam Hediye</th>
+                <th scope="col">Üye Sayısı</th>
+                <th scope="col">İşlemler</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody style="padding: 20px;">
+              
+              <tr app-loyalty-item 
+                  *ngFor="let loyaltyEl of loyalities; let i = index"
+                  [loyalty]="loyaltyEl" 
+                  [index]="i"></tr>
+              
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+
+              
+              <li class="page-item " [ngClass]="(pageable?.first) ? 'disabled' : ''">
+                <div class="page-link" (click)="changePage(0)" tabindex="-1">
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </div>
+              </li>
+              <li *ngFor="let number of counter(pageable?.totalPages); let i = index" 
+                class="page-item" [ngClass]="(pageable?.number == i) ? 'active' : ''">
+                  <div class="page-link"  (click)="changePage(i)"> {{ i+1 }}</div>
+              </li>
+
+              <li class="page-item" [ngClass]="(pageable?.last) ? 'disabled' : ''">
+                <div class="page-link" (click)="changePage(pageable?.totalPages-1)">
+                  <i class="fas fa-angle-right"></i>
+                  <span class="sr-only">Next</span>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Dark table -->
+ 
+</div>

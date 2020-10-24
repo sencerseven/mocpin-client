@@ -1,0 +1,46 @@
+.smt-spinner-circle {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  background: blue;
+  border-radius: 50%;
+}
+
+.smt-spinner-inner-circle {
+  width: 92%;
+  height: 92%;
+  background: red;
+  border-radius: 50%;
+  margin: auto;
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.smt-spinner {
+  height: 0;
+  width: 0;
+  border-radius: 50%;
+  border-right: 25px solid rgba(255,255,255,0.6);
+  border-top: 25px solid transparent;
+  border-left: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  animation: rotate--spinner 1.6s infinite;
+}
+
+@keyframes rotate--spinner {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

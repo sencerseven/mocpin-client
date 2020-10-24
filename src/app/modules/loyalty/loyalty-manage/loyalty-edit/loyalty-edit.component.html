@@ -1,0 +1,73 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-lg-12 col-md-10">
+
+          <div class="col-md-12 col-lg-12">
+            <p class="text-white mt-0 mb-2">Profil sayfana hoşgeldin.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <form role="form" [formGroup]="loyaltyForm" (ngSubmit)="addLoyalty()">
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Loyalty Card Ekle</h3>
+              </div>
+              <div class="col-4 text-right">
+                <button type="submit" class="btn btn-sm btn-primary">Kaydet</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+
+            <h6 class="heading-small text-muted mb-4">Kişisel Bilgiler</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Kart isim</label>
+                    <input type="text"  id="input-last-name" formControlName="loyaltyName" name="loyaltyName"
+                      class="form-control form-control-alternative" >
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Kart Tanım</label>
+                    <input type="text"  id="input-last-name"  formControlName="loyaltyDesc" name="loyaltyDesc"
+                      class="form-control form-control-alternative" >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <ng-multiselect-dropdown
+                  [placeholder]="'Şube Seçiniz'"
+                  [settings]="dropdownSettings"
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems"
+                  (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  [ngModelOptions]="{standalone: true}"
+              >
+              </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

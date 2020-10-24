@@ -1,0 +1,67 @@
+ <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Şube Bilgileri</h3>
+              </div>
+              <div class="col text-right">
+                <a href="#!" class="btn btn-sm btn-primary" [routerLink]="['/settings/branch/add']">Oluştur</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Şube Adı</th>
+                  <th scope="col">Şube Adresi</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody style="padding: 20px;">
+                
+                <tr app-branch-item 
+                    *ngFor="let branchEl of branches; let i = index"
+                    [branch]="branchEl" 
+                    [index]="i"></tr>
+                
+               
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer py-4">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+  
+                <!--
+                <li class="page-item " [ngClass]="(pageable?.first) ? 'disabled' : ''">
+                  <div class="page-link" (click)="changePage(0)" tabindex="-1">
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                  </div>
+                </li>
+                <li *ngFor="let number of counter(pageable?.totalPages); let i = index" 
+                  class="page-item" [ngClass]="(pageable?.number == i) ? 'active' : ''">
+                    <div class="page-link"  (click)="changePage(i)"> {{ i+1 }}</div>
+                </li>
+  
+                <li class="page-item" [ngClass]="(pageable?.last) ? 'disabled' : ''">
+                  <div class="page-link" (click)="changePage(pageable?.totalPages-1)">
+                    <i class="fas fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                  </div>
+                </li>
+                -->
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dark table -->
+   
+  

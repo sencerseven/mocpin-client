@@ -1,0 +1,28 @@
+
+<td>
+    <div class="media align-items-center">
+        <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+        <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+        </a>
+        <div class="media-body">
+        <span class="mb-0 text-sm">{{ branch.name }}</span>
+        </div>
+    </div>
+</td>
+<td>
+{{ branch.fullAddress }}
+</td>
+ 
+  
+<td class="text-right">
+<div ngbDropdown placement="bottom-right">
+    <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+    <i class="fas fa-ellipsis-v"></i>
+    </a>
+    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+    <a class="dropdown-item" [routerLink]="['edit', branch.id]" >Editle</a>
+    <a class="dropdown-item" style="color:red" (click)="remove(branch.id)">Sil</a>
+   
+    </div>
+</div>
+</td>

@@ -1,0 +1,113 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+        
+      </div>
+    </div>
+  </div>
+  <!-- Page content -->
+  <div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <form role="form" [formGroup]="form" (ngSubmit)="save()">
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Kullanıcı Ekle</h3>
+              </div>
+              <div class="col-4 text-right">
+                <button type="submit" class="btn btn-sm btn-primary">Kaydet</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+
+            <h6 class="heading-small text-muted mb-4">Kişisel Bilgiler</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Username</label>
+                    <input type="text" formControlName="userName" id="input-username" name="userName"
+                      class="form-control form-control-alternative">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-password">Şifre</label>
+                    <input type="password" formControlName="password" id="input-password" name="password"
+                      class="form-control form-control-alternative">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-repassword">Şifre Tekrar</label>
+                    <input type="password" formControlName="rePassword" id="input-repassword"  name="rePassword"
+                      class="form-control form-control-alternative" >
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Adı</label>
+                    <input type="text" formControlName="firstName" id="input-first-name" name="firstName"
+                      class="form-control form-control-alternative">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Soyadı</label>
+                    <input type="text" formControlName="lastName" id="input-last-name"  name="lastName"
+                      class="form-control form-control-alternative" >
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group" >
+                    <label>
+                        <input type="radio" value="ADMIN" formControlName="role" (change)="handleChange($event.target.value)">
+                        <span>Admin</span>
+                    </label>
+                    <label>
+                      <input type="radio" value="SUPERVISOR" formControlName="role" (change)="handleChange($event.target.value)">
+                      <span>Supervisor</span>
+                  </label>
+                    <label>
+                        <input type="radio" value="STAFF" formControlName="role" (change)="handleChange($event.target.value)">
+                        <span>Staff</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-6" *ngIf="branches && (radioRole == 'STAFF' || radioRole == 'SUPERVISOR')">
+                    <div class="form-group">
+                        <label class="form-control-label" for="input-branches">Şubeler</label>
+                      <select id="input-branches" class="form-control form-control-alternative" formControlName="branches"  >
+                        <option *ngFor="let b of branches" [value]="b.id" >{{ b.name }}</option>
+                       </select> 
+                    </div>
+                </div>    
+
+
+              </div>
+
+            </div>
+            <hr class="my-4" />
+         
+          </div>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+  

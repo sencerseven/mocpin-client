@@ -1,0 +1,50 @@
+<th scope="row">
+    <div class="media align-items-center">
+      <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+        <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+      </a>
+      <div class="media-body">
+        <span class="mb-0 text-sm">{{ user.userName }}</span>
+      </div>
+    </div>
+  </th>
+  <th scope="row">
+    <div class="media align-items-center">
+      <div class="media-body">
+        <span class="mb-0 text-sm">{{ user.firstName }}</span>
+      </div>
+    </div>
+  </th>
+  <th scope="row">
+    <div class="media align-items-center">
+      <div class="media-body">
+        <span class="mb-0 text-sm">{{ user.lastName  }}</span>
+      </div>
+    </div>
+  </th>
+  <th scope="row">
+    <div class="media align-items-center">
+      <div class="media-body">
+        <span class="mb-0 text-sm">{{ user.email  }}</span>
+      </div>
+    </div>
+  </th>
+  <th scope="row">
+    <div class="media align-items-center">
+      <div class="media-body">
+        <span class="mb-0 text-sm">{{ user.roleType.join(', ') }}</span>
+      </div>
+    </div>
+  </th>
+  <td class="text-right">
+    <div ngbDropdown placement="bottom-right">
+      <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+        <i class="fas fa-ellipsis-v"></i>
+      </a>
+      <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+        <a class="dropdown-item" [routerLink]="['edit', user.id]">Editle</a>
+        <a class="dropdown-item" href="javascript:void(0)">Pasife Çek</a>
+        <a class="dropdown-item" style="color:red" (click)="remove(user.id)">Sil</a>
+      </div>
+    </div>
+  </td>
