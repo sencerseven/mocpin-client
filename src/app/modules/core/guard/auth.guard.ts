@@ -16,7 +16,13 @@ export class AuthGuard implements CanActivate{
         const roles = this.getChildRole(route);
         if(!!tokenRole){
             if(!!roles && !roles.includes(tokenRole[0])){
-                this.router.navigate(['/']);
+                debugger;
+                if(this.router.url == '/auth' || this.router.url == '/'){
+                    this.router.navigate(['/auth']);
+                }else{
+                    this.router.navigate(['/']);
+                }
+
             }
             return true;
         } else
