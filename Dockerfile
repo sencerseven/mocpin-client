@@ -4,7 +4,7 @@ COPY . .
 RUN whoami
 RUN pwd
 RUN npm install
-RUN npm run build --configuration=production
+RUN npm run build --prod
 
 FROM nginx:1.17.1-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
