@@ -10,7 +10,7 @@ import { JWTTokenService } from "./jwttoken.service";
 @Injectable({ providedIn : 'root'})
 export class AccountService{
     constant = new Constant();
-    account;
+    account:Account;
     constructor(private authService:AuthService,
       private jwtTokenService:JWTTokenService,
       private httpClient:HttpClient){}

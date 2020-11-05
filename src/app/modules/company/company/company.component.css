@@ -1,0 +1,26 @@
+.card-company-image img
+{
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15) !important;
+}
+
+
+.card-company-image
+{
+    position: relative;
+}
+.card-company-image img
+{
+    position: relative;
+    left: 50%;
+
+    max-width: 180px;
+
+    transition: all .15s ease; 
+    transform: translate(-50%, -30%);
+
+    border-radius: .375rem;
+}
+.card-company-image img:hover
+{
+    transform: translate(-50%, -33%);
+}

@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { BranchModule } from "../branch/branch.module";
+import { Role } from "../core/enums/Role.enum";
 import { CompanyComponent } from './company/company.component';
 
 @NgModule({
@@ -11,7 +12,7 @@ import { CompanyComponent } from './company/company.component';
         CommonModule,
         ReactiveFormsModule,
         RouterModule.forChild([
-            {path:'', component:CompanyComponent}
+            {path:'', component:CompanyComponent, data: { roles : [Role.ADMIN]}}
         ]),
         BranchModule
     ],

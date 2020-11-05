@@ -23,7 +23,6 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     this.editMode = this.route.snapshot.paramMap.get('id') ? true : false;
-
     this.formBranch = new FormGroup({
       name: new FormControl('',Validators.required)
     });

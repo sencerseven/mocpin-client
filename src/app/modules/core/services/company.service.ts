@@ -15,8 +15,8 @@ export class CompanyService{
         return this.httpClient.get<Company>(this.constant.SERVICE_URL+"/manage/company").pipe(take(1));
     }
 
-    public updateOwnCompany(company:Company){
-       return this.httpClient.post<Company>(this.constant.SERVICE_URL+"/manage/company",company).pipe(take(1));
+    public updateOwnCompany(formData:FormData){
+       return this.httpClient.post<Company>(this.constant.SERVICE_URL+"/manage/company",formData).pipe(take(1));
     }
 
     

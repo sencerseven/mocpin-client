@@ -74,8 +74,8 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group" >
-                    <label>
-                        <input type="radio" value="ADMIN" formControlName="role" (change)="handleChange($event.target.value)">
+                    <label *ngIf="account.isAdmin()">
+                        <input type="radio"  value="ADMIN" formControlName="role" (change)="handleChange($event.target.value)">
                         <span>Admin</span>
                     </label>
                     <label>
@@ -88,7 +88,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="col-lg-6" *ngIf="branches && (radioRole == 'STAFF' || radioRole == 'SUPERVISOR')">
+                <div class="col-lg-6" *ngIf="account.isAdmin() && branches && (radioRole == 'STAFF' || radioRole == 'SUPERVISOR')">
                     <div class="form-group">
                         <label class="form-control-label" for="input-branches">Şubeler</label>
                       <select id="input-branches" class="form-control form-control-alternative" formControlName="branches"  >

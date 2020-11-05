@@ -14,6 +14,7 @@ export class AuthGuard implements CanActivate{
 
         const tokenRole = this.jwtTokenService.getRole();
         const roles = this.getChildRole(route);
+        debugger;
         if(!!tokenRole){
             if(!!roles && !roles.includes(tokenRole[0])){
                 debugger;

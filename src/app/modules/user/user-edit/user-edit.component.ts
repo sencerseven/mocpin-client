@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Account } from '../../core/model/account.model';
 import { BranchOutput } from '../../core/model/branch-output.model';
 import { UserInput } from '../../core/model/user-input.model';
+import { AuthService } from '../../core/services/auth.service';
 import { BranchService } from '../../core/services/branch.service';
 import { UserService } from '../../core/services/user.service';
 
@@ -17,13 +19,14 @@ export class UserEditComponent implements OnInit {
   branches:BranchOutput[];
   editMode:boolean = false;
   branchesFormControl = new FormControl();
-
+  account:Account;
   radioRole:string;
 
-  constructor(private route:ActivatedRoute,private router:Router,private branchService:BranchService,private userService:UserService) { }
+  constructor(private authService:AuthService,private route:ActivatedRoute,private router:Router,private branchService:BranchService,private userService:UserService) { }
 
   ngOnInit(): void {
-    
+   this.account = this.authService.getAccount();
+   
     this.editMode = this.route.snapshot.paramMap.get('id') ? true : false;
     this.branchService.getAllBranchForList().subscribe(resData =>{
       this.branches = resData;

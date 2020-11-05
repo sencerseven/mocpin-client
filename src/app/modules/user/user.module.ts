@@ -20,7 +20,7 @@ import { UserListComponent } from "./user-list/user-list.component";
         NgbModule,
         ReactiveFormsModule,
         RouterModule.forChild([
-            { path: '', component:UserListComponent, resolve:[UserResolverService] },
+            { path: '', component:UserListComponent, resolve:[UserResolverService]},
             { path: 'add',component:UserEditComponent },
             { path: 'edit/:id',component:UserEditComponent, resolve:[UserEditResolver],data: { editMode:true } }
         ])
