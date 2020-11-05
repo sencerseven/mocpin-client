@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { takeWhile } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -14,9 +15,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup;
   errorMessage: string;
   alive = true;
+  isProd:boolean;
 
-
-  constructor(private router:Router,private formBuilder: FormBuilder, private authService: AuthService) {}
+  constructor(private router:Router,private formBuilder: FormBuilder, private authService: AuthService) {
+    this.isProd = environment.production;
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
