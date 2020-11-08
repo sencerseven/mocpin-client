@@ -1,9 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
 import { ApiResponeModel } from "../constant/api-response.model";
 import { Constant } from "../constant/constant";
 import { AccountDetail } from "../model/account-detail.model";
 import { Account } from "../model/account.model";
+import { ProfileInput } from "../model/profile-input.model";
 import { AuthService } from "./auth.service";
 import { JWTTokenService } from "./jwttoken.service";
 
@@ -32,11 +35,8 @@ export class AccountService{
            });
        }
 
-       public saveAccountDetail(account:Account){
-        this.httpClient.post<ApiResponeModel>(this.constant.SERVICE_URL+'/manage/myprofile',account.accountDetail)
-          .subscribe(resData=>{
-              this.authService.account.next(account);
-          })
+       public updateProfile(profileInput:ProfileInput) : Observable<any>{
+        return this.httpClient.post<ApiResponeModel>(this.constant.SERVICE_URL+'/manage/myprofile',profileInput).pipe(take(1));
       }
 
 }
