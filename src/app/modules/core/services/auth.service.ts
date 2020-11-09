@@ -83,10 +83,10 @@ export class AuthService{
         
         const decodedToken = this.jwtTokenService.getDecodeToken();
         if(!!decodedToken){
-            const accountDetail:AccountDetail = this.localStorage.getAccountDetail();
-
+            let accountDetail:AccountDetail = this.localStorage.getAccountDetail();
+            debugger;
             if(!accountDetail){
-                const accountDetail: AccountDetail = decodedToken.user_detail;
+                 accountDetail = decodedToken.user_detail;
                 this.localStorage.putAccountDetail(accountDetail);
             }
             
