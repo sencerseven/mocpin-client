@@ -24,7 +24,7 @@ export class CompanyComponent implements OnInit,OnDestroy {
 
   form:FormGroup;
   company:Company;
-  selectedCompanyImage: File
+  selectedCompanyImage: File;
 
   constructor(private companyService:CompanyService,
     private formBuilder:FormBuilder,
@@ -99,14 +99,11 @@ export class CompanyComponent implements OnInit,OnDestroy {
   }
 
   onSubmit(){
-    if(this.form.valid){
-      
+    if(this.form.valid){    
       const company:Company = this.form.value;
       company.id = this.company.id;
-      const formData = new FormData();
-      formData.append('company',JSON.stringify(company));
-      formData.append('file',this.selectedCompanyImage);
-      this.companyService.updateOwnCompany(formData).subscribe(resData =>{
+  
+      this.companyService.updateOwnCompany(company,this.selectedCompanyImage).subscribe(resData =>{
         console.log(resData);
       });
     }

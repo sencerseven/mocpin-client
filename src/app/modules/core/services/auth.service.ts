@@ -8,6 +8,7 @@ import { AccountDetail } from "../model/account-detail.model";
 import { Account } from "../model/account.model";
 import { UserToken } from "../model/user-token.model";
 import { JWTTokenService } from "./jwttoken.service";
+import { LocalStorageService } from "./local-storage.service";
 
 export interface AuthResponseData
 {
@@ -27,6 +28,7 @@ export class AuthService{
 
     constructor(
         private jwtTokenService:JWTTokenService,
+        private localStorage:LocalStorageService,
         private router:Router,
         private httpClient: HttpClient){}
 
@@ -78,9 +80,16 @@ export class AuthService{
     }
 
     getAccount(){
+        
         const decodedToken = this.jwtTokenService.getDecodeToken();
         if(!!decodedToken){
-            const accountDetail: AccountDetail = decodedToken.user_detail;
+            const accountDetail:AccountDetail = this.localStorage.getAccountDetail();
+
+            if(!accountDetail){
+                const accountDetail: AccountDetail = decodedToken.user_detail;
+                this.localStorage.putAccountDetail(accountDetail);
+            }
+            
             var account: Account = new Account(decodedToken['user_name'], accountDetail,null,this.jwtTokenService.getRole());
         }    
        return account;
@@ -100,6 +109,7 @@ export class AuthService{
     public logout(){
         this.router.navigate(['/auth']);
         this.jwtTokenService.removeToken();
+        this.localStorage.removeAccountDetail();
     }
 
     public parseJwt(token)
@@ -108,5 +118,10 @@ export class AuthService{
             let decodedJwtJsonData = window.atob(jwtData)
             let decodedJwtData = JSON.parse(decodedJwtJsonData)
             return decodedJwtData;
+    }
+
+    public updateAccount(account:Account){
+        this.account.next(account);
+        this.localStorage.putAccountDetail(account.accountDetail);
     }
 }

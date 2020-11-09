@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Account } from 'src/app/modules/core/model/account.model';
-import { AccountDetail } from '../../core/model/account-detail.model';
 import { ProfileInput } from '../../core/model/profile-input.model';
 import { AccountService } from '../../core/services/account.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -18,6 +17,8 @@ export class ProfileComponent implements OnInit {
   account: Account;
   role:string;
 
+  selectedProfileImage: File;
+
   constructor(private accountService:AccountService,
     private jwtTokenService:JWTTokenService,
     private authService: AuthService,
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
     this.authService.account.subscribe(account =>
     {
       this.account = account;
+      console.log(account);
     })
     this.role = this.jwtTokenService.getRole()[0]
     this.form = this.formBuilder.group({
@@ -45,12 +47,10 @@ export class ProfileComponent implements OnInit {
     if(this.form.valid){
       if(this.form.value.password == this.form.value.reNewPassword){
         const profileInput:ProfileInput = this.form.value;
-        this.accountService.updateProfile(profileInput).subscribe(resData =>{
+        this.accountService.updateProfile(profileInput,this.selectedProfileImage).subscribe(resData =>{
   
-          const accountDetail:AccountDetail = this.form.value;
-          accountDetail.id = this.account.accountDetail.id; 
-          this.account.accountDetail = accountDetail;
-          this.authService.account.next(this.account);
+          this.account.accountDetail = resData;
+          this.authService.updateAccount(this.account);
           
           alert('Başarıyla Güncellendi!');
         });
@@ -58,5 +58,9 @@ export class ProfileComponent implements OnInit {
         alert('şifre alanı uyuşmamaktadır.');
       }
     }
+  }
+
+  onFileChanged(event){
+    this.selectedProfileImage = event.target.files[0];
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { AccountDetail } from "../model/account-detail.model";
 import { Province } from "../model/province.model";
 import { UserToken } from "../model/user-token.model";
 
@@ -17,6 +18,19 @@ export class LocalStorageService{
 
     public removeTokenUser(){
         localStorage.removeItem('AUTH');
+    }
+
+    public putAccountDetail(accountDetail:AccountDetail){
+        localStorage.setItem('PROFILE',JSON.stringify(accountDetail));
+    }
+
+    public getAccountDetail(): AccountDetail
+    {
+        return JSON.parse(localStorage.getItem("PROFILE"));
+    }
+
+    public removeAccountDetail(){
+        localStorage.removeItem('PROFILE');
     }
 
     public getProvinceList(): Province[] {

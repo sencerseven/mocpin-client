@@ -29,14 +29,20 @@ export class AccountService{
              
               const role = this.jwtTokenService.getRole();
                const data = <AccountDetail>resData.data;
-               const accountDetail = new AccountDetail(data.id,data.firstName,data.lastName,data.emailAdress);
+               const accountDetail = new AccountDetail(data.id,data.firstName,data.lastName,data.emailAdress,null);
                this.account = new Account(userName,accountDetail,null,role);
              }
            });
        }
 
-       public updateProfile(profileInput:ProfileInput) : Observable<any>{
-        return this.httpClient.post<ApiResponeModel>(this.constant.SERVICE_URL+'/manage/myprofile',profileInput).pipe(take(1));
+       public updateProfile(profileInput:ProfileInput,file:File) : Observable<any>{
+         
+        const formData = new FormData();
+        const userBlob = new Blob([JSON.stringify(profileInput)],{ type: "application/json"});
+        formData.append('profile',userBlob);
+        formData.append('file',file);
+
+        return this.httpClient.post<ApiResponeModel>(this.constant.SERVICE_URL+'/manage/myprofile',formData).pipe(take(1));
       }
 
 }

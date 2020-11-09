@@ -24,8 +24,12 @@
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
-              <a href="javascript:void(0)">
-                <img src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                <input
+                style="display: none"
+                type="file" (change)="onFileChanged($event)"
+                #fileInput>
+              <a href="javascript:void(0)" (click)="fileInput.click()">
+                <img [src]="account.accountDetail.images" class="rounded-circle">
               </a>
             </div>
           </div>
@@ -49,7 +53,7 @@
               {{ account.accountDetail.firstName }} {{ account.accountDetail.lastName}}<span class="font-weight-light">, 27</span>
             </h3>
             <div class="h5 font-weight-300">
-              <i class="ni location_pin mr-2"></i>Aydınevler, İstanbul
+              <i class="ni location_pin mr-2"></i>
             </div>
 
           </div>

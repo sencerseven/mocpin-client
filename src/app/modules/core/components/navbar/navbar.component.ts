@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle) ;
 
-     this.authService.account.subscribe(account =>{
+    this.authService.account.subscribe(account =>{
       this.account=account
     });
   }
