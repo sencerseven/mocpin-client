@@ -18,7 +18,7 @@
                 <h3 class="mb-0">Kullanıcı Ekle</h3>
               </div>
               <div class="col-4 text-right">
-                <button type="submit" class="btn btn-sm btn-primary">Kaydet</button>
+                <button type="submit" [disabled]="!form.valid" class="btn btn-sm btn-primary">Kaydet</button>
               </div>
             </div>
           </div>
@@ -29,9 +29,10 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-username">Username</label>
+                    <label class="form-control-label" for="input-username">Kullanıcı Adı<span class="required">*</span></label>
                     <input type="text" formControlName="userName" id="input-username" name="userName"
                       class="form-control form-control-alternative">
+                      <span class="help-block" *ngIf="!form.get('userName').valid && form.get('userName').touched" >Lütfen Boş Bırakmayınız.</span>
                   </div>
                 </div>
               </div>
@@ -39,16 +40,18 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-password">Şifre</label>
+                    <label class="form-control-label" for="input-password">Şifre<span class="required">*</span></label>
                     <input type="password" formControlName="password" id="input-password" name="password"
                       class="form-control form-control-alternative">
+                      <span class="help-block" *ngIf="!form.get('password').valid && form.get('password').touched" >Lütfen Boş Bırakmayınız.</span>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-repassword">Şifre Tekrar</label>
+                    <label class="form-control-label" for="input-repassword">Şifre Tekrar<span class="required">*</span></label>
                     <input type="password" formControlName="rePassword" id="input-repassword"  name="rePassword"
                       class="form-control form-control-alternative" >
+                      <span class="help-block" *ngIf="!form.get('rePassword').valid && form.get('rePassword').touched" >Lütfen Boş Bırakmayınız.</span>
                   </div>
                 </div>
               </div>
@@ -56,16 +59,18 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">Adı</label>
+                    <label class="form-control-label" for="input-first-name">Adı<span class="required">*</span></label>
                     <input type="text" formControlName="firstName" id="input-first-name" name="firstName"
-                      class="form-control form-control-alternative">
+                      class="form-control form-control-alternative" #firstName>
+                      <span class="help-block" *ngIf="!form.get('firstName').valid && form.get('firstName').touched" >Lütfen Boş Bırakmayınız.</span>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Soyadı</label>
+                    <label class="form-control-label" for="input-last-name">Soyadı<span class="required">*</span></label>
                     <input type="text" formControlName="lastName" id="input-last-name"  name="lastName"
                       class="form-control form-control-alternative" >
+                      <span class="help-block" *ngIf="!form.get('lastName').valid && form.get('lastName').touched" >Lütfen Boş Bırakmayınız.</span>
                   </div>
                 </div>
               </div>
@@ -74,6 +79,8 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group" >
+                    <label class="form-control-label" for="input-password">Yetki<span class="required">*</span></label>
+                    <br/>
                     <label *ngIf="account.isAdmin()">
                         <input type="radio"  value="ADMIN" formControlName="role" (change)="handleChange($event.target.value)">
                         <span>Admin</span>

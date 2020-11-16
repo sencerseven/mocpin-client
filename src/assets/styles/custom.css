@@ -1,0 +1,12 @@
+
+input.ng-invalid.ng-touched{
+    border: 1px solid red;
+  }
+  
+  span.help-block{
+    color: #A5A5A5;
+  }
+
+  span.required{
+      color: red;
+  }

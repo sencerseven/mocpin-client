@@ -65,7 +65,7 @@ export class UserEditComponent implements OnInit {
     ),
     firstName:new FormControl(firstName,Validators.required),
     lastName:new FormControl(lastName,Validators.required),
-    role:new FormControl(role),
+    role:new FormControl(role,Validators.required),
     branches: this.branchesFormControl
     });
   }
@@ -107,4 +107,6 @@ export class UserEditComponent implements OnInit {
     }
   }
  
+  log(val) { console.log(val); }
+
 }
