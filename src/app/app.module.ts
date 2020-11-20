@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
+import { DialogModalComponent } from './modules/core/components/dialog-modal/dialog-modal.component';
 import { LoadingSpinnerComponent } from './modules/core/components/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './modules/core/interceptors/auth-interceptor.service';
 
@@ -22,7 +23,8 @@ import { AuthInterceptorService } from './modules/core/interceptors/auth-interce
   ],
   declarations: [
     AppComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    DialogModalComponent
   ],
   providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi:true}],
   bootstrap: [AppComponent]

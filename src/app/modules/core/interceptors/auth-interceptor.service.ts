@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpEventType, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { JWTTokenService } from "../services/jwttoken.service";
 import { LocalStorageService } from "../services/local-storage.service";
@@ -31,13 +31,17 @@ export class AuthInterceptorService implements HttpInterceptor{
            const modifiedReq = req.clone({ headers: req.headers.set('Authorization', 'bearer' + token._token) });
            return next.handle(modifiedReq)
            .pipe(
-                map((event: HttpEvent<HttpEventType>) =>
+                map(
+                    (event: HttpEvent<HttpEventType>) =>
                 {
                    if (event instanceof HttpResponse)
                    {
                     
                       if(event.body){
                           const requestResponse: RequestResponse = JSON.parse(JSON.stringify(event.body));
+                          if(!!requestResponse.error){
+                            throw new Error(requestResponse.error);
+                          }
                           return event.clone({
                               body: requestResponse.data
                           });
@@ -55,8 +59,9 @@ export class AuthInterceptorService implements HttpInterceptor{
                     }
                 }
                }
-               
-               return Observable.throw(err);
+               //TODO: Error mesaj katalogu oluşturulabilir.
+                const error = err.message || err.statusText;
+                return throwError(error);
            })
         )
        
