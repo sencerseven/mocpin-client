@@ -36,12 +36,14 @@ export class UserEditComponent implements OnInit {
     let userName = '';
     let firstName = '';
     let lastName = '';
+    let email = '';
     let role = '';
 
     if(this.editMode){
       this.userService.user.subscribe(resData =>{
         this.radioRole = resData.roleType[0];
         userName = resData.userName;
+        email = resData.email
         firstName = resData.firstName;
         lastName = resData.lastName;
         role = this.radioRole;
@@ -56,6 +58,7 @@ export class UserEditComponent implements OnInit {
 
    this.form = new FormGroup({
     userName:new FormControl(userName,Validators.required),
+    email:new FormControl(email),
     password:new FormControl('',this.conditionalValidator(
       (()=>!this.editMode),Validators.required)
     ),

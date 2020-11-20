@@ -42,6 +42,14 @@
                       <span class="help-block" *ngIf="!form.get('userName').valid && form.get('userName').touched" >Lütfen Boş Bırakmayınız.</span>
                   </div>
                 </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Eposta</label>
+                    <input type="text" formControlName="email" id="input-email" name="email"
+                      class="form-control form-control-alternative">
+                  </div>
+                </div>
               </div>
 
               <div class="row">
