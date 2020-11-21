@@ -25,6 +25,7 @@ export class CompanyComponent implements OnInit,OnDestroy {
   selectedCompanyImage: File;
 
   successMessage:string;
+  errorMessage:string;
 
   constructor(private companyService:CompanyService,
     private formBuilder:FormBuilder,

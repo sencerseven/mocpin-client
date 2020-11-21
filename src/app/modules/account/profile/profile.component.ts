@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   selectedProfileImage: File;
 
   successMessage:string;
+  errorMessage:string;
 
   constructor(private accountService:AccountService,
     private jwtTokenService:JWTTokenService,
