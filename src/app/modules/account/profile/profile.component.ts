@@ -14,10 +14,12 @@ import { JWTTokenService } from '../../core/services/jwttoken.service';
 })
 export class ProfileComponent implements OnInit {
   form: FormGroup;
-  account: Account;
+  private account: Account;
   role:string;
 
   selectedProfileImage: File;
+
+  successMessage:string;
 
   constructor(private accountService:AccountService,
     private jwtTokenService:JWTTokenService,
@@ -26,11 +28,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit()
   {
-    this.authService.account.subscribe(account =>
-    {
-      this.account = account;
-      console.log(account);
-    })
+     this.authService.account.subscribe(resData =>{
+      this.account= JSON.parse(JSON.stringify(resData));
+    });
     this.role = this.jwtTokenService.getRole()[0]
     this.form = this.formBuilder.group({
       emailAdress: [this.account.accountDetail.emailAdress,Validators.required],
@@ -48,11 +48,13 @@ export class ProfileComponent implements OnInit {
       if(this.form.value.password == this.form.value.reNewPassword){
         const profileInput:ProfileInput = this.form.value;
         this.accountService.updateProfile(profileInput,this.selectedProfileImage).subscribe(resData =>{
-  
           this.account.accountDetail = resData;
           this.authService.updateAccount(this.account);
           
-          alert('Başarıyla Güncellendi!');
+          this.successMessage = 'Güncelleme başarı ile gerçekleşti.'
+          setTimeout(() =>{
+            this.successMessage = '';
+          },3000)
         });
       }else{
         alert('şifre alanı uyuşmamaktadır.');
@@ -61,6 +63,23 @@ export class ProfileComponent implements OnInit {
   }
 
   onFileChanged(event){
-    this.selectedProfileImage = event.target.files[0];
+    if(event.target.files.length === 0){
+      return;
+    }
+    this.selectedProfileImage  = event.target.files[0];
+    
+    var mimeType = this.selectedProfileImage.type;
+    if (mimeType.match(/image\/*/) == null) {
+      //this.message = "Only images are supported.";
+      return;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedProfileImage); 
+    reader.onload = (_event) => { 
+      this.account.accountDetail.images = ''+reader.result; 
+      debugger;
+    }
+
+
   }
 }

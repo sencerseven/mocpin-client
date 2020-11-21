@@ -20,11 +20,11 @@ export class CompanyComponent implements OnInit,OnDestroy {
   provinces:Province[];
   districts:District[];
 
- 
-
   form:FormGroup;
   company:Company;
   selectedCompanyImage: File;
+
+  successMessage:string;
 
   constructor(private companyService:CompanyService,
     private formBuilder:FormBuilder,
@@ -104,13 +104,33 @@ export class CompanyComponent implements OnInit,OnDestroy {
       company.id = this.company.id;
   
       this.companyService.updateOwnCompany(company,this.selectedCompanyImage).subscribe(resData =>{
-        console.log(resData);
+        this.successMessage = 'Güncelleme başarı ile gerçekleşti.'
+        setTimeout(() =>{
+          this.successMessage = '';
+        },3000)
+      },(error)=>{
+        
       });
     }
   }
 
   onFileChanged(event) {
+    if(event.target.files.length === 0){
+      return;
+    }
     this.selectedCompanyImage = event.target.files[0];
+    
+    var mimeType = this.selectedCompanyImage.type;
+    if (mimeType.match(/image\/*/) == null) {
+      //this.message = "Only images are supported.";
+      return;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedCompanyImage); 
+    reader.onload = (_event) => { 
+     this.company.logo = ''+reader.result; 
+    }
+
   }
 
 }
