@@ -14,7 +14,7 @@ import { JWTTokenService } from '../../core/services/jwttoken.service';
 })
 export class ProfileComponent implements OnInit {
   form: FormGroup;
-  private account: Account;
+  account: Account;
   role:string;
 
   selectedProfileImage: File;
