@@ -27,15 +27,10 @@
           <div class="alert alert-danger text-center" role="alert" *ngIf="errorMessage">
             {{ errorMessage }}
           </div>
-          <div class="text-muted text-center mt-2 mb-3"><small>Giriş Yap</small></div>
           <div class="btn-wrapper text-center">
-            <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
-              <span class="btn-inner--icon"><img src="../assets/img/icons/common/github.svg"></span>
-              <span class="btn-inner--text">Github</span>
-            </a>
-            <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
-              <span class="btn-inner--icon"><img src="../assets/img/icons/common/google.svg"></span>
-              <span class="btn-inner--text">Google</span>
+            <a routerLinkActive="active" [routerLink]="['/auth/register']" class="btn btn-light">
+              <i class="ni ni-single-02"></i>
+              <span>Kayıt ol</span>
             </a>
           </div>
         </div>

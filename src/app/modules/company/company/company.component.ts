@@ -33,6 +33,7 @@ export class CompanyComponent implements OnInit,OnDestroy {
     private branchService:BranchService) { }
 
   ngOnInit(): void {
+    debugger;
     this.branchService.getAllBranchForList().subscribe();
     this.placesService.getProvinceList();
 
@@ -44,16 +45,23 @@ export class CompanyComponent implements OnInit,OnDestroy {
     });
 
     let getOwnCompanySubscriber:Subscription;
+    
+    
+
     getOwnCompanySubscriber = this.companyService.getOwnCompany().subscribe(resData =>{
-     
+      this.company = resData;
+      this.form.patchValue({
+        name: resData.name,
+        type: resData.type
+      }); 
       
+      if(!resData.province){
+        return;
+      }
       this.placesService.getDistrictList(resData.province.id).subscribe(data =>{
-        this.company = resData;
+        
         this.districts = data;
-        console.log(data);
-        this.form.setValue({
-          name: resData.name,
-          type: resData.type,
+        this.form.patchValue({
           district: resData.district.id,
           province: resData.province.id,
         });  

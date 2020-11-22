@@ -2,10 +2,12 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { catchError, take, tap } from "rxjs/operators";
 import { Constant } from "../constant/constant";
 import { AccountDetail } from "../model/account-detail.model";
 import { Account } from "../model/account.model";
+import { CompanyInputModel } from "../model/company-input.model";
+import { UserInput } from "../model/user-input.model";
 import { UserToken } from "../model/user-token.model";
 import { JWTTokenService } from "./jwttoken.service";
 import { LocalStorageService } from "./local-storage.service";
@@ -18,6 +20,11 @@ export interface AuthResponseData
     scope:string,
     token_type:string;
 
+}
+
+export interface inputUserRegister{
+    inputUserRegister:UserInput;
+    inputCompanyInfo:CompanyInputModel;
 }
 
 @Injectable({providedIn : 'root'})
@@ -79,12 +86,26 @@ export class AuthService{
         }));
     }
 
+    public register(userInput:UserInput,companyInput:CompanyInputModel){
+        
+        let object:inputUserRegister = {
+            inputUserRegister : userInput,
+            inputCompanyInfo : companyInput
+            
+        };
+        
+        
+        return this.httpClient.post<AuthResponseData>(
+            this.constant.SERVICE_URL+"/auth/company-register",
+            object
+        ).pipe(take(1));
+    }
+
     getAccount(){
         
         const decodedToken = this.jwtTokenService.getDecodeToken();
         if(!!decodedToken){
             let accountDetail:AccountDetail = this.localStorage.getAccountDetail();
-            debugger;
             if(!accountDetail){
                  accountDetail = decodedToken.user_detail;
                 this.localStorage.putAccountDetail(accountDetail);
