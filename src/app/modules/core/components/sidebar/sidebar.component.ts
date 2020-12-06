@@ -10,11 +10,11 @@ declare interface RouteInfo {
     role:string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '', role: 'ALL' },
-    { path: '/loyalty-card', title: 'Loyalty Card', icon: 'ni ni-credit-card text-primary', class: '', role: 'ALL' },
-    { path: '/settings/account', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '', role: 'ALL' },
-    { path: '/settings/company', title: 'Company',  icon:'ni-single-02 text-yellow', class: '', role: 'ADMIN' },
-    { path: '/settings/user', title: 'Add User',  icon:'ni-single-02 text-yellow', class: '', role: 'ALL' }
+    { path: '', title: 'Anasayfa',  icon: 'ni-tv-2 text-primary', class: '', role: 'ALL' },
+    { path: '/loyalty-card', title: 'Kartlar', icon: 'ni ni-credit-card text-green', class: '', role: 'ALL' },
+    { path: '/settings/account', title: 'Profilim',  icon:'ni-single-02 text-yellow', class: '', role: 'ALL' },
+    { path: '/settings/company', title: 'Şirket',  icon:'ni-briefcase-24 text-primary', class: '', role: 'ADMIN' },
+    { path: '/settings/user', title: 'Kullanıcılar',  icon:'ni-badge text-red', class: '', role: 'ALL' }
 ];
 
 @Component({

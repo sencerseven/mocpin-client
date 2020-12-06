@@ -20,11 +20,12 @@ export class CompanyComponent implements OnInit,OnDestroy {
   provinces:Province[];
   districts:District[];
 
- 
-
   form:FormGroup;
   company:Company;
-  selectedCompanyImage: File
+  selectedCompanyImage: File;
+
+  successMessage:string;
+  errorMessage:string;
 
   constructor(private companyService:CompanyService,
     private formBuilder:FormBuilder,
@@ -32,6 +33,7 @@ export class CompanyComponent implements OnInit,OnDestroy {
     private branchService:BranchService) { }
 
   ngOnInit(): void {
+    debugger;
     this.branchService.getAllBranchForList().subscribe();
     this.placesService.getProvinceList();
 
@@ -43,16 +45,23 @@ export class CompanyComponent implements OnInit,OnDestroy {
     });
 
     let getOwnCompanySubscriber:Subscription;
+    
+    
+
     getOwnCompanySubscriber = this.companyService.getOwnCompany().subscribe(resData =>{
-     
+      this.company = resData;
+      this.form.patchValue({
+        name: resData.name,
+        type: resData.type
+      }); 
       
+      if(!resData.province){
+        return;
+      }
       this.placesService.getDistrictList(resData.province.id).subscribe(data =>{
-        this.company = resData;
+        
         this.districts = data;
-        console.log(data);
-        this.form.setValue({
-          name: resData.name,
-          type: resData.type,
+        this.form.patchValue({
           district: resData.district.id,
           province: resData.province.id,
         });  
@@ -99,21 +108,38 @@ export class CompanyComponent implements OnInit,OnDestroy {
   }
 
   onSubmit(){
-    if(this.form.valid){
-      
+    if(this.form.valid){    
       const company:Company = this.form.value;
       company.id = this.company.id;
-      const formData = new FormData();
-      formData.append('company',JSON.stringify(company));
-      formData.append('file',this.selectedCompanyImage);
-      this.companyService.updateOwnCompany(formData).subscribe(resData =>{
-        console.log(resData);
+  
+      this.companyService.updateOwnCompany(company,this.selectedCompanyImage).subscribe(resData =>{
+        this.successMessage = 'Güncelleme başarı ile gerçekleşti.'
+        setTimeout(() =>{
+          this.successMessage = '';
+        },3000)
+      },(error)=>{
+        
       });
     }
   }
 
   onFileChanged(event) {
+    if(event.target.files.length === 0){
+      return;
+    }
     this.selectedCompanyImage = event.target.files[0];
+    
+    var mimeType = this.selectedCompanyImage.type;
+    if (mimeType.match(/image\/*/) == null) {
+      //this.message = "Only images are supported.";
+      return;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedCompanyImage); 
+    reader.onload = (_event) => { 
+     this.company.logo = ''+reader.result; 
+    }
+
   }
 
 }

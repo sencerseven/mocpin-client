@@ -2,10 +2,21 @@
   <div class="container">
     <div class="header-body text-center mb-7">
       <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-6">
-          <h1 class="text-white">Welcome!</h1>
-          <p class="text-lead text-light">Use these awesome forms to login or create new account in your project for free.</p>
+        <div class="col-lg-5 col-md-6" *ngIf="!registeredSuccess">
+          <h1 class="text-white">Hoşgeldin</h1>
+          <p class="text-lead text-light">Merhaba, Şirket kaydını oluşturman için adımları doğru şekilde doldurman gerek.</p>
         </div>
+        <div class="col-lg-5 col-md-6" *ngIf="registeredSuccess">
+          <h1 class="text-white">Tebrikler {{secondFormGroup.value.userName}} </h1>
+          <p class="text-lead text-light">Başarı ile Şirketiniz oluşturuldu ,Giriş Ekranına Yönelndiriliyorsunuz.</p>
+          <p>Eğer hala yönlendirilmediyseniz lütfen  
+            <a routerLinkActive="active" [routerLink]="['/../..']" >
+              <span>tıklayınız.</span>
+            </a>
+
+          </p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -16,68 +27,121 @@
   </div>
 </div>
 <!-- Page content -->
-<div class="container mt--8 pb-5">
+<div class="container mt--8 pb-12 " *ngIf="!registeredSuccess">
   <!-- Table -->
   <div class="row justify-content-center">
-    <div class="col-lg-6 col-md-8">
+    <div class="col-lg-12 col-md-12  pb-7">
       <div class="card bg-secondary shadow border-0">
         <div class="card-header bg-transparent pb-5">
-          <div class="text-muted text-center mt-2 mb-4"><small>Sign up with</small></div>
-          <div class="text-center">
-            <a href="javascript:void(0)" class="btn btn-neutral btn-icon mr-4">
-              <span class="btn-inner--icon"><img src="assets/img/icons/common/github.svg"></span>
-              <span class="btn-inner--text">Github</span>
-            </a>
-            <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
-              <span class="btn-inner--icon"><img src="assets/img/icons/common/google.svg"></span>
-              <span class="btn-inner--text">Google</span>
+          <div class="alert alert-danger text-center" role="alert" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+          <div class="btn-wrapper text-center">
+            <a routerLinkActive="active" [routerLink]="['/auth']" class="btn btn-light">
+              <i class="ni ni-single-02"></i>
+              <span>Giriş Yap</span>
             </a>
           </div>
         </div>
         <div class="card-body px-lg-5 py-lg-5">
-          <div class="text-center text-muted mb-4">
-            <small>Or sign up with credentials</small>
-          </div>
-          <form role="form">
-            <div class="form-group">
-              <div class="input-group input-group-alternative mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+          
+          <mat-horizontal-stepper #stepper>
+            <mat-step [stepControl]="firstFormGroup" errorMessage="Boş Bırakmayınız.">
+              <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Şirket Bilgileri</ng-template>
+                
+                <div class="row">
+                  <div class="col-lg-3">
+                    <mat-form-field>
+                      <mat-label>Şirket Adı:</mat-label>
+                      <input matInput placeholder="Şirket Adı" formControlName="name" required>
+                    </mat-form-field>
+                  </div>
+                  <!-- 
+                  <div class="col-lg-3">
+                    <mat-form-field>
+                      <mat-label>Hizmet Sektörü</mat-label>
+                      <input matInput placeholder="RESTORANT" formControlName="type" required>
+                    </mat-form-field>
+                  </div>
+                  -->
+                </div>  
+                <div>
+                  <button mat-button matStepperNext>Devam</button>
                 </div>
-                <input class="form-control" placeholder="Name" type="text">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group input-group-alternative mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup" errorMessage="Boş Bırakmayınız">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Kişisel Bilgiler</ng-template>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-label>Kullanıcı Adı:</mat-label>
+                        <input matInput  formControlName="userName"
+                               required>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-label>E-posta</mat-label>
+                        <input matInput  formControlName="email"
+                               required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-label>Ad:</mat-label>
+                        <input matInput formControlName="firstName"
+                               required>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-label>Soyad:</mat-label>
+                        <input matInput  formControlName="lastName"
+                               required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-label>Şifre</mat-label>
+                        <input matInput formControlName="password"
+                               required>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-label>Şifre Tekrar</mat-label>
+                        <input matInput formControlName="rePassword"
+                               required>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <button mat-button matStepperPrevious>Geri</button>
+                      <button mat-button matStepperNext >Devam</button>
+                    </div>
+                  </div>
                 </div>
-                <input class="form-control" placeholder="Email" type="email">
+
+                
+              
+              </form>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Tamamla</ng-template>
+              <p>Tarafımız tarafından incelenip geri dönüş sağlanıcaktır.</p>
+              <div>
+                <button mat-button matStepperPrevious>Geri</button>
+                <button mat-button (click)="onSubmit()" class="btn btn-light" *ngIf="firstFormGroup.valid && secondFormGroup.valid">Tamamla</button>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                </div>
-                <input class="form-control" placeholder="Password" type="password">
-              </div>
-            </div>
-            <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
-            <div class="row my-4">
-              <div class="col-12">
-                <div class="custom-control custom-control-alternative custom-checkbox">
-                  <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                  <label class="custom-control-label" for="customCheckRegister">
-                    <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="text-center">
-              <button type="button" class="btn btn-primary mt-4">Create account</button>
-            </div>
-          </form>
+            </mat-step>
+          </mat-horizontal-stepper>
         </div>
       </div>
     </div>

@@ -15,7 +15,13 @@ export class CompanyService{
         return this.httpClient.get<Company>(this.constant.SERVICE_URL+"/manage/company").pipe(take(1));
     }
 
-    public updateOwnCompany(formData:FormData){
+    public updateOwnCompany(company:Company,file:File){
+        const formData = new FormData();
+
+        const userBlob = new Blob([JSON.stringify(company)],{ type: "application/json"});
+        formData.append('company',userBlob);
+        formData.append('file',file);
+
        return this.httpClient.post<Company>(this.constant.SERVICE_URL+"/manage/company",formData).pipe(take(1));
     }
 

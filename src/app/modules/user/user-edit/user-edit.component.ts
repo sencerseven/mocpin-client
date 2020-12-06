@@ -21,6 +21,7 @@ export class UserEditComponent implements OnInit {
   branchesFormControl = new FormControl();
   account:Account;
   radioRole:string;
+  errorMessage:string;
 
   constructor(private authService:AuthService,private route:ActivatedRoute,private router:Router,private branchService:BranchService,private userService:UserService) { }
 
@@ -35,12 +36,14 @@ export class UserEditComponent implements OnInit {
     let userName = '';
     let firstName = '';
     let lastName = '';
+    let email = '';
     let role = '';
 
     if(this.editMode){
       this.userService.user.subscribe(resData =>{
         this.radioRole = resData.roleType[0];
         userName = resData.userName;
+        email = resData.email
         firstName = resData.firstName;
         lastName = resData.lastName;
         role = this.radioRole;
@@ -48,8 +51,6 @@ export class UserEditComponent implements OnInit {
 
         if(resData.branchId){
           this.branchesFormControl = new FormControl(resData.branchId,Validators.required)
-          
-           
         }
        
       });
@@ -57,6 +58,7 @@ export class UserEditComponent implements OnInit {
 
    this.form = new FormGroup({
     userName:new FormControl(userName,Validators.required),
+    email:new FormControl(email),
     password:new FormControl('',this.conditionalValidator(
       (()=>!this.editMode),Validators.required)
     ),
@@ -65,13 +67,11 @@ export class UserEditComponent implements OnInit {
     ),
     firstName:new FormControl(firstName,Validators.required),
     lastName:new FormControl(lastName,Validators.required),
-    role:new FormControl(role),
+    role:new FormControl(role,Validators.required),
     branches: this.branchesFormControl
     });
   }
-
- 
-
+  
   save(){
     if(this.form.valid){
       console.log(this.form.value);
@@ -82,10 +82,12 @@ export class UserEditComponent implements OnInit {
 
       this.userService.registerUserForCompany(registerForm).subscribe(resData =>{
         this.router.navigate(['/settings/user']);
+      },(error)=>{
+        this.errorMessage = error;
       });
       
     }else{
-      console.log('not valid');
+     this.errorMessage = "Lütfen zorunlu alanları boş bırakmayınız."
       
     }
   }
@@ -106,5 +108,5 @@ export class UserEditComponent implements OnInit {
       return validator(control);
     }
   }
- 
+
 }

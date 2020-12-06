@@ -1,9 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
 import { ApiResponeModel } from "../constant/api-response.model";
 import { Constant } from "../constant/constant";
 import { AccountDetail } from "../model/account-detail.model";
 import { Account } from "../model/account.model";
+import { ProfileInput } from "../model/profile-input.model";
 import { AuthService } from "./auth.service";
 import { JWTTokenService } from "./jwttoken.service";
 
@@ -26,17 +29,20 @@ export class AccountService{
              
               const role = this.jwtTokenService.getRole();
                const data = <AccountDetail>resData.data;
-               const accountDetail = new AccountDetail(data.id,data.firstName,data.lastName,data.emailAdress);
+               const accountDetail = new AccountDetail(data.id,data.firstName,data.lastName,data.emailAdress,null);
                this.account = new Account(userName,accountDetail,null,role);
              }
            });
        }
 
-       public saveAccountDetail(account:Account){
-        this.httpClient.post<ApiResponeModel>(this.constant.SERVICE_URL+'/manage/myprofile',account.accountDetail)
-          .subscribe(resData=>{
-              this.authService.account.next(account);
-          })
+       public updateProfile(profileInput:ProfileInput,file:File) : Observable<any>{
+         
+        const formData = new FormData();
+        const userBlob = new Blob([JSON.stringify(profileInput)],{ type: "application/json"});
+        formData.append('profile',userBlob);
+        formData.append('file',file);
+
+        return this.httpClient.post<ApiResponeModel>(this.constant.SERVICE_URL+'/manage/myprofile',formData).pipe(take(1));
       }
 
 }

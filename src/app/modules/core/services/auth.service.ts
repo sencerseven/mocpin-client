@@ -2,12 +2,15 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { catchError, take, tap } from "rxjs/operators";
 import { Constant } from "../constant/constant";
 import { AccountDetail } from "../model/account-detail.model";
 import { Account } from "../model/account.model";
+import { CompanyInputModel } from "../model/company-input.model";
+import { UserInput } from "../model/user-input.model";
 import { UserToken } from "../model/user-token.model";
 import { JWTTokenService } from "./jwttoken.service";
+import { LocalStorageService } from "./local-storage.service";
 
 export interface AuthResponseData
 {
@@ -19,6 +22,11 @@ export interface AuthResponseData
 
 }
 
+export interface inputUserRegister{
+    inputUserRegister:UserInput;
+    inputCompanyInfo:CompanyInputModel;
+}
+
 @Injectable({providedIn : 'root'})
 export class AuthService{
  
@@ -27,6 +35,7 @@ export class AuthService{
 
     constructor(
         private jwtTokenService:JWTTokenService,
+        private localStorage:LocalStorageService,
         private router:Router,
         private httpClient: HttpClient){}
 
@@ -77,10 +86,31 @@ export class AuthService{
         }));
     }
 
+    public register(userInput:UserInput,companyInput:CompanyInputModel){
+        
+        let object:inputUserRegister = {
+            inputUserRegister : userInput,
+            inputCompanyInfo : companyInput
+            
+        };
+        
+        
+        return this.httpClient.post<AuthResponseData>(
+            this.constant.SERVICE_URL+"/auth/company-register",
+            object
+        ).pipe(take(1));
+    }
+
     getAccount(){
+        
         const decodedToken = this.jwtTokenService.getDecodeToken();
         if(!!decodedToken){
-            const accountDetail: AccountDetail = decodedToken.user_detail;
+            let accountDetail:AccountDetail = this.localStorage.getAccountDetail();
+            if(!accountDetail){
+                 accountDetail = decodedToken.user_detail;
+                this.localStorage.putAccountDetail(accountDetail);
+            }
+            
             var account: Account = new Account(decodedToken['user_name'], accountDetail,null,this.jwtTokenService.getRole());
         }    
        return account;
@@ -100,6 +130,7 @@ export class AuthService{
     public logout(){
         this.router.navigate(['/auth']);
         this.jwtTokenService.removeToken();
+        this.localStorage.removeAccountDetail();
     }
 
     public parseJwt(token)
@@ -108,5 +139,10 @@ export class AuthService{
             let decodedJwtJsonData = window.atob(jwtData)
             let decodedJwtData = JSON.parse(decodedJwtJsonData)
             return decodedJwtData;
+    }
+
+    public updateAccount(account:Account){
+        this.account.next(account);
+        this.localStorage.putAccountDetail(account.accountDetail);
     }
 }

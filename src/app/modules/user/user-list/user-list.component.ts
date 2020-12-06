@@ -18,6 +18,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.account.pipe(take(1)).subscribe(resData =>{
+      console.log(resData);
       this.myProfile = resData;
     });
     this.userService.userList.subscribe(resData =>{

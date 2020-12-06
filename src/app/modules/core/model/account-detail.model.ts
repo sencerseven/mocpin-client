@@ -4,6 +4,7 @@ export class AccountDetail{
        public id:number,
        public firstName:string,
        public lastName:string,
-       public emailAdress:string
+       public emailAdress:string,
+       public images: string
    ){}
 }

@@ -1,8 +1,9 @@
+import { environment } from "src/environments/environment";
 
 
 export class Constant{
 
-    SERVICE_URL='http://localhost:1234';
+    SERVICE_URL=environment.serverUrl;
 
 
     

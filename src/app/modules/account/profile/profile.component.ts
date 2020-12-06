@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Account } from 'src/app/modules/core/model/account.model';
-import { AccountDetail } from '../../core/model/account-detail.model';
+import { ProfileInput } from '../../core/model/profile-input.model';
 import { AccountService } from '../../core/services/account.service';
 import { AuthService } from '../../core/services/auth.service';
 import { JWTTokenService } from '../../core/services/jwttoken.service';
@@ -17,6 +17,11 @@ export class ProfileComponent implements OnInit {
   account: Account;
   role:string;
 
+  selectedProfileImage: File;
+
+  successMessage:string;
+  errorMessage:string;
+
   constructor(private accountService:AccountService,
     private jwtTokenService:JWTTokenService,
     private authService: AuthService,
@@ -24,15 +29,16 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit()
   {
-    this.authService.account.subscribe(account =>
-    {
-      this.account = account;
-    })
+     this.authService.account.subscribe(resData =>{
+      this.account= JSON.parse(JSON.stringify(resData));
+    });
     this.role = this.jwtTokenService.getRole()[0]
     this.form = this.formBuilder.group({
       emailAdress: [this.account.accountDetail.emailAdress,Validators.required],
       firstName: [this.account.accountDetail.firstName,Validators.required],
-      lastName: [this.account.accountDetail.lastName,Validators.required]
+      lastName: [this.account.accountDetail.lastName,Validators.required],
+      password: [],
+      reNewPassword:[]
     })
 
    
@@ -40,10 +46,41 @@ export class ProfileComponent implements OnInit {
 
   onSubmit(){
     if(this.form.valid){
-      const accountDetail:AccountDetail = this.form.value;
-      accountDetail.id = this.account.accountDetail.id; 
-      this.account.accountDetail = accountDetail;
-      this.accountService.saveAccountDetail(this.account);
+      if(this.form.value.password == this.form.value.reNewPassword){
+        const profileInput:ProfileInput = this.form.value;
+        this.accountService.updateProfile(profileInput,this.selectedProfileImage).subscribe(resData =>{
+          this.account.accountDetail = resData;
+          this.authService.updateAccount(this.account);
+          
+          this.successMessage = 'Güncelleme başarı ile gerçekleşti.'
+          setTimeout(() =>{
+            this.successMessage = '';
+          },3000)
+        });
+      }else{
+        alert('şifre alanı uyuşmamaktadır.');
+      }
     }
+  }
+
+  onFileChanged(event){
+    if(event.target.files.length === 0){
+      return;
+    }
+    this.selectedProfileImage  = event.target.files[0];
+    
+    var mimeType = this.selectedProfileImage.type;
+    if (mimeType.match(/image\/*/) == null) {
+      //this.message = "Only images are supported.";
+      return;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedProfileImage); 
+    reader.onload = (_event) => { 
+      this.account.accountDetail.images = ''+reader.result; 
+      debugger;
+    }
+
+
   }
 }
